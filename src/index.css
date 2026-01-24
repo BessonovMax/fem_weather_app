@@ -38,6 +38,29 @@
   --color-blue-700: #2b1b9c;
 }
 
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(48, 47, 74);
+    border-radius: 12px;
+    border: 1px solid rgb(60, 59, 94);
+    background-clip: content-box;
+  }
+
+  /* For Firefox */
+  /* .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #777 transparent;
+  } */
+}
+
 @utility text-preset-1 {
   font-size: 6rem;
   line-height: 100%;

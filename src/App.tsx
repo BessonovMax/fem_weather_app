@@ -95,8 +95,8 @@ function App() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 rounded-[20px] bg-neutral-800 px-4 py-5 md:p-6">
-            <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-4 rounded-[20px] bg-neutral-800 py-5 md:py-6">
+            <div className="flex items-center justify-between px-4 md:px-6">
               <div className="text-preset-5">Hourly forecast</div>
               <div className="flex items-center gap-3 rounded-lg bg-neutral-600 px-4 py-2">
                 <div className="text-preset-7">Tuesday</div>
@@ -104,7 +104,23 @@ function App() {
                 <img className="w-[12px]" src={DropDownIcon} alt="Menu" />
               </div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="scrollbar-thin flex max-h-[592px] flex-col gap-4 overflow-y-auto px-4 md:px-6">
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
               <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
               <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
               <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
