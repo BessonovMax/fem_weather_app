@@ -50,13 +50,48 @@ function App() {
             <div className="flex flex-col gap-5">
               <h2 className="text-preset-5">Daily forecast</h2>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(89.14px,1fr))] gap-4">
-                <DailyDetails />
-                <DailyDetails />
-                <DailyDetails />
-                <DailyDetails />
-                <DailyDetails />
-                <DailyDetails />
-                <DailyDetails />
+                <DailyDetails
+                  weatherCode={61}
+                  tMax="-22"
+                  tMin="-17"
+                  day="Fri"
+                />
+                <DailyDetails
+                  weatherCode={61}
+                  tMax="-22"
+                  tMin="-17"
+                  day="Fri"
+                />
+                <DailyDetails
+                  weatherCode={61}
+                  tMax="-22"
+                  tMin="-17"
+                  day="Fri"
+                />
+                <DailyDetails
+                  weatherCode={61}
+                  tMax="-22"
+                  tMin="-17"
+                  day="Fri"
+                />
+                <DailyDetails
+                  weatherCode={61}
+                  tMax="-22"
+                  tMin="-17"
+                  day="Fri"
+                />
+                <DailyDetails
+                  weatherCode={61}
+                  tMax="-22"
+                  tMin="-17"
+                  day="Fri"
+                />
+                <DailyDetails
+                  weatherCode={61}
+                  tMax="-22"
+                  tMin="-17"
+                  day="Fri"
+                />
               </div>
             </div>
           </div>
@@ -70,14 +105,14 @@ function App() {
               </div>
             </div>
             <div className="flex flex-col gap-4">
-              <HourlyDetails />
-              <HourlyDetails />
-              <HourlyDetails />
-              <HourlyDetails />
-              <HourlyDetails />
-              <HourlyDetails />
-              <HourlyDetails />
-              <HourlyDetails />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
+              <HourlyDetails weatherCode={0} tAvg="-15" time="6 PM" />
             </div>
           </div>
         </main>
