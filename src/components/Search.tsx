@@ -1,4 +1,4 @@
-import SearchIcon from "./assets/images/icon-search.svg";
+import SearchIcon from "../assets/images/icon-search.svg";
 
 export default function Search() {
   return (
