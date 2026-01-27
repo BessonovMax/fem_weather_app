@@ -1,4 +1,4 @@
-import weatherCodeToIcon from "./utils/WeatherCodeToIcon";
+import weatherCodeToIcon from "../utils/WeatherCodeToIcon";
 
 type Props = {
   time: string;

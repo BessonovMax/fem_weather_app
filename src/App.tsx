@@ -18,7 +18,7 @@ import {
   formatDailyApiResponseDate,
   formatHourlyWeatherData,
 } from "./utils/FormatApiResponse";
-import HourlyForecast from "./HourlyForecast";
+import HourlyForecast from "./hourlyWeather/HourlyForecast";
 
 function App() {
   const [weatherData, setWeatherData] = useState<WeatherApiResponse | null>(
