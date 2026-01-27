@@ -46,8 +46,8 @@ export default function weatherCodeToIcon(weatherCode: number): string {
     case 96:
     case 99:
       return IconStorm;
-    // Add more cases for different weather codes and their corresponding icons
+
     default:
-      return IconSun; // Default icon
+      return IconSun;
   }
 }

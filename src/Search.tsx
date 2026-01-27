@@ -2,7 +2,7 @@ import SearchIcon from "./assets/images/icon-search.svg";
 
 export default function Search() {
   return (
-    <form className="text-preset-5 flex flex-col gap-3 md:flex-row lg:w-[656px] lg:self-center">
+    <form className="text-preset-5-medium flex flex-col gap-3 md:flex-row lg:w-[656px] lg:self-center">
       <div className="relative flex grow-1 items-center">
         <img
           className="pointer-events-none absolute pl-6"
