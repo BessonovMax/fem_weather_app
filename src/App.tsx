@@ -6,6 +6,7 @@ import { fetchWeatherData } from "./api/weather";
 import {
   type CurrentWeatherData,
   type DailyWeatherData,
+  type Geolocation,
   type HourlyWeatherData,
   type WeatherApiResponse,
 } from "./types";
@@ -18,6 +19,8 @@ function App() {
   const [weatherData, setWeatherData] = useState<WeatherApiResponse | null>(
     null,
   );
+
+  const [location, setLocation] = useState<Geolocation | null>(null);
 
   const [currentWeather, setCurrentWeather] =
     useState<CurrentWeatherData | null>(null);
@@ -36,18 +39,14 @@ function App() {
 
   useEffect(() => {
     const loadWeatherData = async () => {
-      const weatherData = await fetchWeatherData(measurementUnit);
+      const weatherData = await fetchWeatherData(measurementUnit, location);
       setWeatherData(weatherData);
       setCurrentWeather(weatherData.current);
       setDailyWeather(weatherData.daily);
       setHourlyWeather(formatHourlyWeatherData(weatherData.hourly));
     };
-    loadWeatherData();
-  }, [measurementUnit]);
-
-  if (!weatherData || !currentWeather || !hourlyWeather || !dailyWeather) {
-    return <div>Loading...</div>;
-  }
+    if (location) loadWeatherData();
+  }, [measurementUnit, location]);
 
   return (
     <div className="min-h-dvh bg-neutral-900 p-4 md:p-6 lg:py-12">
@@ -62,21 +61,29 @@ function App() {
         <h1 className="text-preset-2 self-center text-center md:max-w-[482px] lg:max-w-full">
           How's the sky looking today?
         </h1>
-        <Search />
+        <Search setLocation={setLocation} />
 
-        <main className="grid gap-8 lg:grid-cols-[800px_1fr]">
-          <div className="flex flex-col gap-8 lg:w-[800px] lg:gap-12">
-            <div className="flex flex-col gap-5 lg:gap-8">
-              <CurrentForecast
-                weatherData={weatherData}
-                currentWeather={currentWeather}
-              />
+        {location &&
+          weatherData &&
+          currentWeather &&
+          dailyWeather &&
+          hourlyWeather && (
+            <main className="grid gap-8 lg:grid-cols-[800px_1fr]">
+              <div className="flex flex-col gap-8 lg:w-[800px] lg:gap-12">
+                <div className="flex flex-col gap-5 lg:gap-8">
+                  <CurrentForecast
+                    weatherData={weatherData}
+                    currentWeather={currentWeather}
+                    name={location?.name || "Unknown"}
+                    country={location?.country || "Unknown"}
+                  />
 
-              <DailyForecast dailyWeather={dailyWeather} />
-            </div>
-          </div>
-          <HourlyForecast hourlyWeather={hourlyWeather} />
-        </main>
+                  <DailyForecast dailyWeather={dailyWeather} />
+                </div>
+              </div>
+              <HourlyForecast hourlyWeather={hourlyWeather} />
+            </main>
+          )}
       </div>
     </div>
   );

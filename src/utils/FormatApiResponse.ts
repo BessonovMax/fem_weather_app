@@ -4,7 +4,8 @@ import type {
   HourlyWeatherDataByDay,
 } from "../types";
 
-export function formatApiResponseDate(apiResponse: string) {
+export function formatApiResponseDate(apiResponse: string | null) {
+  if (!apiResponse) return "N/A";
   const dateObject = new Date(apiResponse);
 
   const daysOfWeek = [
