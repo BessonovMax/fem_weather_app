@@ -36,6 +36,17 @@
   --color-orange-500: #ff820a;
   --color-blue-500: #4658d9;
   --color-blue-700: #2b1b9c;
+
+  --animate-spin-x: spinX 1.5s linear infinite;
+
+  @keyframes spinX {
+    0% {
+      transform: rotateX(0deg);
+    }
+    100% {
+      transform: rotateX(360deg);
+    }
+  }
 }
 
 @layer utilities {

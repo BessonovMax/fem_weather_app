@@ -9,7 +9,7 @@ type Props = {
 
 export default function DailyDetails({ day, tMax, tMin, weatherCode }: Props) {
   return (
-    <div className="flex flex-col items-center gap-4 rounded-xl border-1 border-neutral-600 bg-neutral-800 px-2.5 py-4">
+    <div className="flex h-[165px] flex-col items-center gap-4 rounded-xl border-1 border-neutral-600 bg-neutral-800 px-2.5 py-4">
       <div className="text-preset-6">{day}</div>
       <img
         className="h-[60px] w-[60px]"

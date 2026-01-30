@@ -3,35 +3,21 @@ import DropDownMenu from "./components/DropDownMenu";
 import Search from "./components/Search";
 import { useEffect, useState } from "react";
 import { fetchWeatherData } from "./api/weather";
-import {
-  type CurrentWeatherData,
-  type DailyWeatherData,
-  type Geolocation,
-  type HourlyWeatherData,
-  type WeatherApiResponse,
-} from "./types";
+import { type Geolocation, type WeatherApiResponse } from "./types";
 import { formatHourlyWeatherData } from "./utils/FormatApiResponse";
 import HourlyForecast from "./hourlyWeather/HourlyForecast";
 import DailyForecast from "./dailyWeather/DailyForecast";
 import CurrentForecast from "./currentWeather/CurrentForecast";
+import MainSkeleton from "./skeletons/MainSkeleton";
 
 function App() {
   const [weatherData, setWeatherData] = useState<WeatherApiResponse | null>(
     null,
   );
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [location, setLocation] = useState<Geolocation | null>(null);
-
-  const [currentWeather, setCurrentWeather] =
-    useState<CurrentWeatherData | null>(null);
-
-  const [dailyWeather, setDailyWeather] = useState<DailyWeatherData | null>(
-    null,
-  );
-
-  const [hourlyWeather, setHourlyWeather] = useState<HourlyWeatherData | null>(
-    null,
-  );
 
   const [measurementUnit, setMeasurementUnit] = useState<"Metric" | "Imperial">(
     "Metric",
@@ -39,11 +25,10 @@ function App() {
 
   useEffect(() => {
     const loadWeatherData = async () => {
+      setIsLoading(true);
       const weatherData = await fetchWeatherData(measurementUnit, location);
-      setWeatherData(weatherData);
-      setCurrentWeather(weatherData.current);
-      setDailyWeather(weatherData.daily);
-      setHourlyWeather(formatHourlyWeatherData(weatherData.hourly));
+      setWeatherData(weatherData.data);
+      if (weatherData.status === 200) setIsLoading(false);
     };
     if (location) loadWeatherData();
   }, [measurementUnit, location]);
@@ -63,27 +48,30 @@ function App() {
         </h1>
         <Search setLocation={setLocation} />
 
-        {location &&
-          weatherData &&
-          currentWeather &&
-          dailyWeather &&
-          hourlyWeather && (
-            <main className="grid gap-8 lg:grid-cols-[800px_1fr]">
-              <div className="flex flex-col gap-8 lg:w-[800px] lg:gap-12">
-                <div className="flex flex-col gap-5 lg:gap-8">
-                  <CurrentForecast
-                    weatherData={weatherData}
-                    currentWeather={currentWeather}
-                    name={location?.name || "Unknown"}
-                    country={location?.country || "Unknown"}
-                  />
-
-                  <DailyForecast dailyWeather={dailyWeather} />
+        {location && (
+          <main className="grid gap-8 lg:grid-cols-[800px_1fr]">
+            {!weatherData || isLoading ? (
+              <MainSkeleton />
+            ) : (
+              <>
+                <div className="flex flex-col gap-8 lg:w-[800px] lg:gap-12">
+                  <div className="flex flex-col gap-5 lg:gap-8">
+                    <CurrentForecast
+                      weatherData={weatherData}
+                      currentWeather={weatherData.current}
+                      name={location?.name || "Unknown"}
+                      country={location?.country || "Unknown"}
+                    />
+                  </div>
+                  <DailyForecast dailyWeather={weatherData.daily} />
                 </div>
-              </div>
-              <HourlyForecast hourlyWeather={hourlyWeather} />
-            </main>
-          )}
+                <HourlyForecast
+                  hourlyWeather={formatHourlyWeatherData(weatherData.hourly)}
+                />
+              </>
+            )}
+          </main>
+        )}
       </div>
     </div>
   );

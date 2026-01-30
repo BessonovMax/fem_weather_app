@@ -21,10 +21,12 @@ export default function Search({ setLocation }: Props) {
     const formData = new FormData(event.currentTarget);
     const searchQuery = formData.get("search") as string;
     try {
-      const locations = await fetchLocation(searchQuery);
-      setLocationList(locations);
-      setShowList(true);
-      setHighlightedIndex(0);
+      if (searchQuery.trim().length > 1) {
+        const locations = await fetchLocation(searchQuery);
+        setLocationList(locations);
+        setShowList(true);
+        setHighlightedIndex(0);
+      }
     } catch (error) {
       console.error("Error fetching location data:", error);
       setLocationList([]);
@@ -125,7 +127,7 @@ export default function Search({ setLocation }: Props) {
       </div>
       <button
         type="submit"
-        className="cursor-pointer rounded-xl bg-blue-500 py-4 text-center md:px-6"
+        className="cursor-pointer rounded-xl bg-blue-500 py-4 text-center transition-colors duration-200 ease-in-out hover:bg-blue-700 md:px-6"
       >
         Search
       </button>
