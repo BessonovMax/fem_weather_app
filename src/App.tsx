@@ -28,7 +28,9 @@ function App() {
       setIsLoading(true);
       const weatherData = await fetchWeatherData(measurementUnit, location);
       setWeatherData(weatherData.data);
-      if (weatherData.status === 200) setIsLoading(false);
+      if (weatherData.status >= 200 && weatherData.status < 300) {
+        setIsLoading(false);
+      }
     };
     if (location) loadWeatherData();
   }, [measurementUnit, location]);
@@ -59,8 +61,8 @@ function App() {
                     <CurrentForecast
                       weatherData={weatherData}
                       currentWeather={weatherData.current}
-                      name={location?.name || "Unknown"}
-                      country={location?.country || "Unknown"}
+                      name={location?.name}
+                      country={location?.country}
                     />
                   </div>
                   <DailyForecast dailyWeather={weatherData.daily} />

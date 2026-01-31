@@ -1,8 +1,13 @@
 import type { GeolocationApiResponse } from "../types";
 
+type GeolocationApiResult = {
+  data: GeolocationApiResponse[];
+  status: number;
+};
+
 export async function fetchLocation(
   name: string,
-): Promise<GeolocationApiResponse[]> {
+): Promise<GeolocationApiResult> {
   const API_URL = `https://geocoding-api.open-meteo.com/v1/search?name=${name}&count=10&language=en&format=json`;
   const response = await fetch(API_URL);
   if (!response.ok) {
@@ -12,5 +17,8 @@ export async function fetchLocation(
   if (!data.results || data.results.length === 0) {
     throw new Error("No location found");
   }
-  return data.results.slice(0, 4);
+  return {
+    data: data.results.slice(0, 4),
+    status: response.status,
+  };
 }
