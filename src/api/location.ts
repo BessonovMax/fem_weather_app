@@ -15,8 +15,9 @@ export async function fetchLocation(
   }
   const data: { results: GeolocationApiResponse[] } = await response.json();
   if (!data.results || data.results.length === 0) {
-    throw new Error("No location found");
+    throw new Error("No search result found!");
   }
+
   return {
     data: data.results.slice(0, 4),
     status: response.status,

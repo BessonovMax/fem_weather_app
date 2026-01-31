@@ -11,8 +11,11 @@ export default function HourlySkeleton() {
         </button>
       </div>
       <div className="scrollbar-thin flex max-h-[592px] flex-col gap-4 overflow-y-auto px-4 md:px-6">
-        {Array.from({ length: 24 }).map(() => (
-          <div className="min-h-[60px] rounded-lg border-1 border-neutral-600 bg-neutral-700"></div>
+        {Array.from({ length: 24 }).map((_, index) => (
+          <div
+            key={index}
+            className="min-h-[60px] rounded-lg border-1 border-neutral-600 bg-neutral-700"
+          ></div>
         ))}
       </div>
     </div>
