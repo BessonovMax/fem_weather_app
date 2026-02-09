@@ -7,9 +7,10 @@ import LoadingIcon from "../assets/images/icon-loading.svg";
 
 type Props = {
   setLocation: React.Dispatch<React.SetStateAction<Geolocation | null>>;
+  setApiError: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function Search({ setLocation }: Props) {
+export default function Search({ setLocation, setApiError }: Props) {
   const [locationList, setLocationList] = useState<Geolocation[]>([]);
   const [showList, setShowList] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,16 +19,19 @@ export default function Search({ setLocation }: Props) {
   );
   const [highlightedIndex, setHighlightedIndex] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
   const inputRef = useRef<HTMLInputElement>(null);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(event.target.value);
+    //showing loading spinner
     setShowList(true);
     setIsLoading(true);
-    setError(null);
-    if (inputRef.current?.value === "") {
+    //removing previous searchedLocation if it was
+    setSearchedLocation(null);
+    setLocationError(null);
+    if (inputRef.current && inputRef.current.value.length < 2) {
       setLocationList([]);
       setIsLoading(false);
       setShowList(false);
@@ -37,10 +41,15 @@ export default function Search({ setLocation }: Props) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    //set the location that was searched and picked by user as a location for weather fetch func (if no location was picked from the list, submit button won't do anything (double-check for no sending wrong input: this and disabled submit button))
+    // close the list of location variants
+    // making searchedLocation state null to disable the submit button
     if (searchedLocation) {
       setLocation(searchedLocation);
       setShowList(false);
+      setSearchedLocation(null);
     }
+    //make input field empty after submission
     if (inputRef.current) {
       inputRef.current.value = "";
     }
@@ -57,7 +66,12 @@ export default function Search({ setLocation }: Props) {
           setHighlightedIndex(0);
         } catch (error) {
           console.error("Error fetching location data:", error);
-          setError(error instanceof Error ? error.message : String(error));
+          setLocationError(
+            error instanceof Error ? error.message : String(error),
+          );
+          if (locationError !== "No search result found!") {
+            setApiError(true);
+          }
           setLocationList([]);
           setShowList(false);
         } finally {
@@ -66,7 +80,7 @@ export default function Search({ setLocation }: Props) {
       }
     };
     fetchLocations();
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, locationError, setApiError]);
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (!showList || locationList.length === 0) return;
@@ -160,12 +174,15 @@ export default function Search({ setLocation }: Props) {
         </div>
         <button
           type="submit"
-          className="cursor-pointer rounded-xl bg-blue-500 py-4 text-center transition-colors duration-200 ease-in-out hover:bg-blue-700 focus:outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-blue-500 md:px-6"
+          disabled={searchedLocation === null}
+          className="cursor-pointer rounded-xl bg-blue-500 py-4 text-center transition-colors duration-200 ease-in-out hover:bg-blue-700 focus:outline-none focus-visible:inset-ring-2 focus-visible:inset-ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-blue-500 disabled:cursor-not-allowed disabled:hover:bg-blue-500 md:px-6"
         >
           Search
         </button>
       </form>
-      {error ? <div className="text-preset-4 self-center">{error}</div> : null}
+      {locationError ? (
+        <div className="text-preset-4 self-center">{locationError}</div>
+      ) : null}
     </div>
   );
 }
