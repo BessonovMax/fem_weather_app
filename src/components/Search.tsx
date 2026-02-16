@@ -65,7 +65,6 @@ export default function Search({ setLocation, setApiError }: Props) {
           setLocationList(locations.data);
           setHighlightedIndex(0);
         } catch (error) {
-          console.error("Error fetching location data:", error);
           setLocationError(
             error instanceof Error ? error.message : String(error),
           );
