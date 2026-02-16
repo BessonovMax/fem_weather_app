@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchWeatherData } from "./api/weather";
+import { fetchUserLocationByCoords } from "./api/location";
 import { type Geolocation, type WeatherApiResponse } from "./types";
 import { formatHourlyWeatherData } from "./utils/FormatApiResponse";
 import DropDownMenu from "./components/DropDownMenu";
@@ -32,7 +33,30 @@ function App() {
   };
 
   useEffect(() => {
-    const loadWeatherData = async () => {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        console.log(position.coords.latitude, position.coords.longitude);
+        try {
+          setIsLoading(true);
+          const userLocationData: Geolocation = await fetchUserLocationByCoords(
+            position.coords.latitude,
+            position.coords.longitude,
+          );
+          setLocation(userLocationData);
+        } catch (error) {
+          console.error("Error fetching user location:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+      },
+    );
+  }, []);
+
+  useEffect(() => {
+    const loadWeatherData = async (location: Geolocation) => {
       setIsLoading(true);
       const weatherData = await fetchWeatherData(measurementUnit, location);
       setWeatherData(weatherData.data);
@@ -40,7 +64,10 @@ function App() {
         setIsLoading(false);
       }
     };
-    if (location) loadWeatherData();
+
+    if (location) {
+      loadWeatherData(location);
+    }
   }, [measurementUnit, location]);
 
   return (

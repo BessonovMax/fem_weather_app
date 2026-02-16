@@ -62,7 +62,7 @@ export default function Search({ setLocation, setApiError }: Props) {
         setIsLoading(true);
         try {
           const locations = await fetchLocation(debouncedSearchTerm);
-          setLocationList(locations.data);
+          setLocationList(locations);
           setHighlightedIndex(0);
         } catch (error) {
           setLocationError(

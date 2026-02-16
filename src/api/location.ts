@@ -1,13 +1,8 @@
-import type { GeolocationApiResponse } from "../types";
-
-type GeolocationApiResult = {
-  data: GeolocationApiResponse[];
-  status: number;
-};
+import type { Geolocation, GeolocationApiResponse } from "../types";
 
 export async function fetchLocation(
   name: string,
-): Promise<GeolocationApiResult> {
+): Promise<GeolocationApiResponse[]> {
   const API_URL = `https://geocoding-api.open-meteo.com/v1/search?name=${name}&count=10&language=en&format=json`;
   const response = await fetch(API_URL);
   if (!response.ok) {
@@ -18,8 +13,27 @@ export async function fetchLocation(
     throw new Error("No search result found!");
   }
 
-  return {
-    data: data.results.slice(0, 4),
-    status: response.status,
+  return data.results.slice(0, 4);
+}
+
+export async function fetchUserLocationByCoords(
+  latitude: number,
+  longitude: number,
+): Promise<Geolocation> {
+  const API_URL = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
+
+  const response = await fetch(API_URL);
+  if (!response.ok) {
+    throw new Error("Failed to fetch user location data");
+  }
+  const data = await response.json();
+
+  const userLocation: Geolocation = {
+    name: data.city || "Unknown",
+    latitude,
+    longitude,
+    country: data.countryName || "Unknown",
   };
+
+  return userLocation;
 }
