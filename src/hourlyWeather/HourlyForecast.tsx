@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DropDownIcon from "../assets/images/icon-dropdown.svg";
 import HourlyDetails from "./HourlyDetails";
 import type { HourlyWeatherData } from "../types";
@@ -11,13 +11,34 @@ export default function HourlyForecast({ hourlyWeather }: Props) {
   const [dayOfWeek, setDayOfWeek] = useState(hourlyWeather[0]?.day);
   const [showMenu, setShowMenu] = useState(false);
 
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showMenu]);
+
   return (
     <div className="flex flex-col gap-4 rounded-[20px] bg-neutral-800 py-5 md:py-6">
-      <div className="flex items-center justify-between px-4 md:px-6">
+      <div
+        ref={menuRef}
+        className="flex items-center justify-between px-4 md:px-6"
+      >
         <div className="text-preset-5">Hourly forecast</div>
         <button
           onClick={toggleMenu}

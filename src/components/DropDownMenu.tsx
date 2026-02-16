@@ -1,6 +1,6 @@
 import IconUnits from "../assets/images/icon-units.svg";
 import DropDownIcon from "../assets/images/icon-dropdown.svg";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MenuItem from "./MenuItem";
 
 type Props = {
@@ -16,14 +16,32 @@ export default function DropDownMenu({
 }: Props) {
   const [showMenu, setShowMenu] = useState(false);
 
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showMenu]);
+
   const isMetric = measurementUnit === "Metric";
 
   return (
-    <div className="relative">
+    <div ref={menuRef} className="relative">
       <button
         onClick={toggleMenu}
         className="text-preset-8 md:text-preset-7 flex cursor-pointer gap-1.5 rounded-md bg-neutral-800 px-2.5 py-2"

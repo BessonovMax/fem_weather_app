@@ -31,7 +31,8 @@ export default function CurrentForecast({
           <div className="flex items-center justify-center gap-5">
             <img className="w-[120px]" src={Sun} alt="Weather icon" />
             <div className="text-preset-1">
-              {currentWeather.temperature_2m.toFixed()}°
+              {currentWeather.temperature_2m.toFixed()}
+              {weatherData.current_units.temperature_2m}
             </div>
           </div>
         </div>
