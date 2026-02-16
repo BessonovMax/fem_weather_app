@@ -18,7 +18,7 @@ export default function CurrentForecast({
 }: Props) {
   return (
     <>
-      <div className="flex flex-col gap-4 rounded-[20px] bg-[url(./fem_weather_app/images/bg-today-small.svg)] bg-cover py-[41px] md:flex-row md:justify-between md:bg-[url(./fem_weather_app/images/bg-today-large.svg)] md:px-6 md:py-[83px]">
+      <div className="flex flex-col gap-4 rounded-[20px] bg-[url(./images/bg-today-small.svg)] bg-cover py-[41px] md:flex-row md:justify-between md:bg-[url(./images/bg-today-large.svg)] md:px-6 md:py-[83px]">
         <div className="flex flex-col items-center gap-3 md:items-start md:justify-center">
           <h2 className="text-preset-4">
             {name}, {country}
