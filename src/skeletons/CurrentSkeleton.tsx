@@ -3,7 +3,7 @@ import LoadingDots from "../assets/images/icon-loading-dots.svg";
 export default function CurrentSkeleton() {
   return (
     <>
-      <div className="text-preset-6 flex h-[286px] flex-col items-center justify-center gap-3.5 rounded-[20px] bg-neutral-800 bg-[url(./images/bg-loading-large.svg)] bg-contain text-neutral-200">
+      <div className="text-preset-6 flex h-[286px] flex-col items-center justify-center gap-3.5 rounded-[20px] bg-neutral-800 bg-[url(./fem_weather_app/images/bg-loading-large.svg)] bg-contain text-neutral-200">
         <img src={LoadingDots} alt="Loading " className="animate-spin-x" />
         <div>Loading</div>
       </div>
